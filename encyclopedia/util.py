@@ -25,13 +25,30 @@ def save_entry(title, content):
     default_storage.save(filename, ContentFile(content))
 
 
+
+
+
 def get_entry(title):
     """
     Retrieves an encyclopedia entry by its title. If no such
     entry exists, the function returns None.
     """
     try:
-        f = default_storage.open(f"entries/{title}.md")
-        return f.read().decode("utf-8")
+        f = default_storage.open(f"entries/{title}.md").read().decode("utf-8")
+        return convert_markdown_to_html(f)
     except FileNotFoundError:
-        return None
+        return "<h1>404</h1><p>Page not found.</p>"
+    
+
+
+def convert_markdown_to_html(content):
+    """
+    Converts markdown content to HTML.
+    """
+    if content and isinstance(content, str):
+        return re.sub(r'(?m)^(?!<h3>)(.+)$', r'<p>\1</p>',
+                     re.sub(r'\[(.+?)\]\((.+?)\)', r'<a href="\2">\1</a>',
+                            re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>',
+                                re.sub(r'(?m)^\* (.+)$', r'<ul><li>\1</li></ul>',
+                                    re.sub(r'(?m)^# (.+)$', r'<h3>\1</h3>\n<hr>', content)))))
+    
