@@ -26,8 +26,6 @@ def save_entry(title, content):
 
 
 
-
-
 def get_entry(title):
     """
     Retrieves an encyclopedia entry by its title. If no such
@@ -35,9 +33,9 @@ def get_entry(title):
     """
     try:
         f = default_storage.open(f"entries/{title}.md").read().decode("utf-8")
-        return convert_markdown_to_html(f)
+        return f
     except FileNotFoundError:
-        return "<h1>404</h1><p>Page not found.</p>"
+        return None
     
 
 
@@ -51,4 +49,6 @@ def convert_markdown_to_html(content):
                             re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>',
                                 re.sub(r'(?m)^\* (.+)$', r'<ul><li>\1</li></ul>',
                                     re.sub(r'(?m)^# (.+)$', r'<h3>\1</h3>\n<hr>', content)))))
+    else:
+        return "<h3>404</h3><p>Page not found.</p>"
     
