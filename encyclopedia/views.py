@@ -21,6 +21,8 @@ def entry_page(request, entry):
 def edit_page(request, entry):
     mkd = util.get_entry(entry)
     title = mkd[mkd.find("# ") + len("# "):mkd.find("\n")]
+
+
     if request.method == "GET":
         return render(request, "encyclopedia/edit_page.html", {
             'title': title,
@@ -34,4 +36,6 @@ def edit_page(request, entry):
             'title': title,
             'content': util.convert_markdown_to_html(content)
         })
+
+
 
