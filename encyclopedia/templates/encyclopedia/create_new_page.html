@@ -1,0 +1,18 @@
+{% extends 'encyclopedia/layout.html' %}
+{% block title %}
+Create New Wiki
+{% endblock %}
+{% block body %}
+<h1>Create New Wiki</h1>
+{% if error %}
+<h3 style="color: red;">{{ error }}</h3>
+{% endif %}
+<form action="{% url 'create_new_wiki' %}" method="post">
+    {% csrf_token %}
+    <label for="title">Title:</label><br>
+    <input type="text" name="title"><br>
+    <label for="content">Content: (Write it as a markdown content)</label><br>
+    <textarea name="content" rows="10" cols="50"></textarea><br>
+    <input type="submit" value="Save">
+</form>
+{% endblock %}

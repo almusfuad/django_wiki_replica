@@ -1,11 +1,15 @@
 {% extends "encyclopedia/layout.html" %}
 {% block title %}
+{% if title %}
 {{ title.upper }} - Wikipedia
+{% else %}
+Error
+{% endif %}
 {% endblock %}
 
 
 {% block nav %}
-{% if title != '404' %}
+{% if title %}
 <div>
     <a href="{% url 'edit_page' entry=title %}">Edit This Page</a>
 </div>
@@ -13,8 +17,12 @@
 {% endblock %}
 
 {% block body %}
+{% if title %}
 <div class="entry p-3 m-5" >
       {{ content|safe }}
 </div>
+{% else %}
+<h1>Page Not Found</h1>
+{% endif %}
 
 {% endblock %}

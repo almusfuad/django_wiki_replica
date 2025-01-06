@@ -44,12 +44,13 @@ def convert_markdown_to_html(content):
     """
     Converts markdown content to HTML.
     """
+    print(f"Attempting to retrieve entry: {content}")
     if content and isinstance(content, str):
-        return re.sub(r'(?m)^(?!<h3>)(.+)$', r'<p>\1</p>',
+        return re.sub(r'(?m)^(?!<h1>)(.+)$', r'<p>\1</p>',
                      re.sub(r'\[(.+?)\]\((.+?)\)', r'<a href="\2">\1</a>',
                             re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>',
                                 re.sub(r'(?m)^\* (.+)$', r'<ul><li>\1</li></ul>',
-                                    re.sub(r'(?m)^# (.+)$', r'<h3>\1</h3>\n<hr>', content)))))
-    else:
-        return "<h3>404</h3><p>Page not found.</p>"
+                                       re.sub(r'(?m)^## (.+)$', r'<h2>\1</h2>',
+                                            re.sub(r'(?m)^# (.+)$', r'<h1>\1</h1>\n<hr>', content))))))
+    
     
