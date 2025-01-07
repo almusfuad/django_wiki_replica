@@ -58,12 +58,22 @@ def create_new_page(request):
             })
 
         # Save the entry
-        markdown_content = f"# {title}\n{content}"
+        markdown_content = f"# {title}\n\n{content}"
         util.save_entry(title, markdown_content)
 
         # Redirect to the entry page
         return redirect('entry_page', entry=title)
     
+
+
+def searching(request):
+    query = request.GET.get('q', '').lower()
+    entry = util.search_entries(query)
+    
+    return render(request, "encyclopedia/entry_page.html", {
+        'title': entry,
+        'content': util.convert_markdown_to_html(util.get_entry(entry))
+    })
 
 
 

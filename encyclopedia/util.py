@@ -53,4 +53,48 @@ def convert_markdown_to_html(content):
                                        re.sub(r'(?m)^## (.+)$', r'<h2>\1</h2>',
                                             re.sub(r'(?m)^# (.+)$', r'<h1>\1</h1>\n<hr>', content))))))
     
-    
+
+
+def calculate_similarity(query, entry):
+    """
+    Calculated a basic similarity score between two strings.
+    """
+
+    query = query.lower()
+    entry = entry.lower()
+
+
+    # Common characters between the query and the entry
+    common_chars = set(query) & set(entry)      # Find the intersection of the two sets
+    score = len(common_chars) / max(len(query), len(entry))
+
+
+    print(f"Similarity score for {query} with {entry}: {score}")
+    print(f"Common characters: {common_chars}")
+
+    # Bonus for substring matching
+    if query in entry or entry in query:
+        score += 0.5
+
+    return min(score, 1.0)
+
+
+def search_entries(query):
+    """
+    Searches for entries that match the query string.
+    """
+
+    entries = list_entries()
+    best_match = None
+    highest_score = 0
+
+
+    for entry in entries:
+        similarity_score = calculate_similarity(query, entry)
+        
+
+        if similarity_score > highest_score:
+            highest_score = similarity_score
+            best_match = entry
+
+    return best_match
