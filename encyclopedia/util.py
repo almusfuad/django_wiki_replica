@@ -98,3 +98,13 @@ def search_entries(query):
             best_match = entry
 
     return best_match
+
+
+def random_result():
+    """
+    Returns a random entry from the list of entries.
+    """
+
+    import random
+    entries = list_entries()
+    return random.choice(entries)

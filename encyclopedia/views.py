@@ -76,5 +76,14 @@ def searching(request):
     })
 
 
+def random_entry(request):
+    entry = util.random_result()
+    print(f"Random entry: {entry}")
+    return render(request, "encyclopedia/entry_page.html", {
+        'title': entry,
+        'content': util.convert_markdown_to_html(util.get_entry(entry))
+    })
+
+
 
 
